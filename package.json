@@ -1,0 +1,73 @@
+{
+  "name": "react-entity-component-system",
+  "version": "1.0.0",
+  "description": "Entity Component System for React to make games or other interactive components.",
+  "repository": "https://github.com/mattblackdev/react-entity-component-system.git",
+  "author": "Matt Black",
+  "license": "MIT",
+  "private": false,
+  "source": "src/index.js",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "microbundle",
+    "dev": "microbundle watch",
+    "start": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "prettier": {
+    "printWidth": 80,
+    "singleQuote": true,
+    "semi": false,
+    "trailingComma": "all"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "gameloop": "^1.1.4",
+    "immer": "^4.0.1",
+    "use-immer": "^0.3.4"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.2",
+    "@storybook/addon-actions": "^5.2.1",
+    "@storybook/addon-links": "^5.2.1",
+    "@storybook/addons": "^5.2.1",
+    "@storybook/react": "^5.2.1",
+    "@typescript-eslint/eslint-plugin": "2.x",
+    "@typescript-eslint/parser": "2.x",
+    "babel-eslint": "10.x",
+    "babel-loader": "^8.0.6",
+    "box-intersect": "^1.0.2",
+    "eslint": "6.x",
+    "eslint-config-react-app": "^5.0.2",
+    "eslint-plugin-flowtype": "3.x",
+    "eslint-plugin-import": "2.x",
+    "eslint-plugin-jsx-a11y": "6.x",
+    "eslint-plugin-react": "7.x",
+    "eslint-plugin-react-hooks": "1.x",
+    "microbundle": "^0.12.0-next.6",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
+    "rollup": "^1.23.1",
+    "typescript": "^3.6.3",
+    "vec-la-fp": "^1.8.0",
+    "webpack": "^4.41.0"
+  }
+}
