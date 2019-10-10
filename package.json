@@ -1,6 +1,6 @@
 {
   "name": "react-entity-component-system",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Entity Component System for React to make games or other interactive components.",
   "repository": "https://github.com/mattblackdev/react-entity-component-system.git",
   "author": "Matt Black",
@@ -9,8 +9,8 @@
   "source": "src/index.js",
   "main": "dist/index.js",
   "scripts": {
-    "build": "microbundle",
-    "dev": "microbundle watch",
+    "build": "microbundle --jsx React.createElement",
+    "dev": "microbundle watch --jsx React.createElement",
     "start": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
