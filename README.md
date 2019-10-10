@@ -56,7 +56,7 @@ export default function BasicECS() {
 }
 ```
 
-When the `updater` is called, the `systems` will be called. This will trigger a re-render and any changes to the `entities` will be reflected immediately. Combined with a loop like `requestAnimationFrame` or the provided `useGameLoop` hook, this can happen as much as 60 frames per second.
+When the `updater` is called, the `systems` are called. This triggers a re-render and any changes to the `entities` are reflected immediately. Combined with a loop like `requestAnimationFrame` or the provided `useGameLoop` hook, this can happen as much as 60 frames per second.
 
 Additionally, you can pass an object to the `updater` so your systems can have access to other things:
 
