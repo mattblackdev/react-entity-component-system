@@ -1,4 +1,4 @@
-export function defaultGetInitialEntities(initialEntitiesArray, getUniqueId) {
+export function defaultInitializeEntities(initialEntitiesArray, getUniqueId) {
   const entityReducer = (parentId = null) => (
     initialEntities,
     { children = [], ...entity },

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useImmer } from 'use-immer'
 
-import { defaultGetInitialEntities } from './helpers/defaultGetInitialEntities.js'
+import { defaultInitializeEntities } from './helpers/defaultInitializeEntities.js'
 import { defaultRenderEntities } from './helpers/defaultRenderEntities.jsx'
 import { defaultUniqueId } from './helpers/defaultUniqueId.js'
 
@@ -9,13 +9,13 @@ export function useEntityComponentSystem(
   initialEntities = [],
   systems = [],
   {
-    getInitialEntities = defaultGetInitialEntities,
+    initializeEntities = defaultInitializeEntities,
     getUniqueId = defaultUniqueId,
     renderEntities = defaultRenderEntities,
   } = {},
 ) {
   const [entities, updateEntities] = useImmer(
-    getInitialEntities(initialEntities, getUniqueId),
+    initializeEntities(initialEntities, getUniqueId),
   )
 
   const updater = React.useCallback(
@@ -53,14 +53,15 @@ export function useEntityComponentSystem(
           delete entitiesDraft[id]
         }
 
-        for (const entity of entitiesToCreate) {
-          const id = getUniqueId()
-          entity.id = id
-          entitiesDraft[id] = entity
+        if (entitiesToCreate.length) {
+          Object.assign(
+            entitiesDraft,
+            initializeEntities(entitiesToCreate, getUniqueId)(),
+          )
         }
       })
     },
-    [updateEntities, systems, getUniqueId],
+    [updateEntities, systems, initializeEntities, getUniqueId],
   )
 
   return [renderEntities(entities), updater, entities]
