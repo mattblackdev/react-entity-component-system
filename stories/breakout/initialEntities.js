@@ -22,6 +22,7 @@ export const initialEntities = [
         position: [128 + k * 64, 128 - j * 32],
         collider: { type: 'block', width: 64, height: 32 },
         color,
+        points: color === 'blue' ? 200 : 100,
         name: 'block',
       })),
     ],
