@@ -1,6 +1,5 @@
 import React from 'react'
 import stringifyObject from 'stringify-object'
-import FPS from 'fps'
 
 function useToggle(initial, callback) {
   const [on, set] = React.useState(initial)
@@ -13,32 +12,13 @@ function useToggle(initial, callback) {
   return [on, toggle]
 }
 
-function useFPS() {
-  const [fps, setFps] = React.useState(0)
-  const ticker = React.useRef({})
-  React.useEffect(() => {
-    ticker.current = new FPS({ every: 20 })
-    ticker.current.on(
-      'data',
-      fps => console.log('tick', fps) || setFps(Math.trunc(fps)),
-    )
-    return () => {
-      ticker.current = {}
-    }
-  }, [])
-  function sample() {
-    ticker.current.tick && ticker.current.tick()
-  }
-  return [fps, sample]
-}
-
+const Button = props => <button {...props} style={{ minWidth: 80 }} />
 export function Debug({ entities, gameLoop }) {
   const [paused, togglePaused] = useToggle(false, () =>
     gameLoop.current.toggle(),
   )
   const [show, toggleShow] = useToggle(false)
-  const [fps, sampleFPS] = useFPS()
-  sampleFPS()
+  const backgroundColor = show ? 'rgba(10,10,10,0.5)' : 'inherit'
   return (
     <div
       style={{
@@ -51,20 +31,18 @@ export function Debug({ entities, gameLoop }) {
         fontFamily: '"Courier New", monospace',
         height: '100%',
         overflowY: 'auto',
-        backgroundColor: 'rgba(10,10,10,0.5)',
+        backgroundColor,
       }}
     >
       <div
         style={{
           display: 'flex',
           justifyContent: 'flex-end',
-          marginRight: show ? 0 : 15,
         }}
       >
-        <span>{fps} </span>
-        <button onClick={toggleShow}>{show ? 'Hide' : 'Debug'}</button>
-        <button onClick={togglePaused}>{paused ? 'Resume' : 'Pause'}</button>
-        <button onClick={() => console.log(entities)}>Log</button>
+        <Button onClick={toggleShow}>{show ? 'Hide' : 'Debug'}</Button>
+        <Button onClick={togglePaused}>{paused ? 'Resume' : 'Pause'}</Button>
+        <Button onClick={() => console.log(entities)}>Log</Button>
       </div>
       <DebugInner show={show} entities={entities} />
     </div>
@@ -78,7 +56,7 @@ function DebugInner({ show, entities }) {
     if (show) {
       setContent(
         stringifyObject(entities, {
-          indent: '    ',
+          indent: '  ',
           inlineCharacterLimit: 40,
           transform,
         }),
