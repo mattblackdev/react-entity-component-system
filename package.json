@@ -1,6 +1,6 @@
 {
   "name": "react-entity-component-system",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Entity Component System for React to make games or other interactive components.",
   "repository": "https://github.com/mattblackdev/react-entity-component-system.git",
   "author": "Matt Black",
