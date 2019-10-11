@@ -4,6 +4,8 @@ An ECS hook for React to make games or other interactive components.
 
 `yarn add react-entity-component-system`
 
+<img style="margin: auto;" height="400" src="demo.gif" />
+
 ## Why
 
 It's fun to build games with React, and people have become successful at it. The ECS pattern is well known and battle tested for game development. This library is a loose implementation for React. You can check out the [Breakout storybook story](https://github.com/mattblackdev/react-entity-component-system/tree/master/stories/breakout) to see a fairly complex example.
