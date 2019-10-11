@@ -43,6 +43,8 @@ function Score(props) {
         right: 20,
         color: 'white',
         fontSize: 50,
+        fontFamily: 'Operator Mono',
+        fontWeight: 'bold',
       }}
     >
       {props.score}
@@ -65,20 +67,61 @@ function scoreSystem({ entities, entitiesMap, gameEvents }) {
   })
 }
 
+// Challenge 4: Create a win system
+function winSystem() {
+  let wonYet = false
+  return ({ entities, gameLoop, createEntity }) => {
+    const blocks = entities.filter(e => e.name === 'block')
+    if (blocks.length < 1 && !wonYet) {
+      wonYet = true
+      createEntity({
+        Renderer: () => (
+          <div
+            style={{
+              fontFamily: 'Operator Mono',
+              position: 'relative',
+              justifySelf: 'center',
+              alignSelf: 'center',
+              flex: 1,
+              textAlign: 'center',
+              color: 'white',
+            }}
+          >
+            <h1 style={{ fontSize: 72, margin: 0 }}>Nice Job!</h1>
+            <h1 style={{ fontSize: 28, margin: 0 }}>
+              useEntityComponentSystem
+            </h1>
+          </div>
+        ),
+      })
+      setTimeout(() => {
+        gameLoop.current.pause()
+      }, 10)
+    }
+  }
+}
+
 export function Breakout() {
   const [entities, updater] = useEntityComponentSystem(
     [...initialEntities, scoreEntity],
-    [...initialSystems, movementSystem, blockHitSystem, scoreSystem],
+    [
+      ...initialSystems,
+      movementSystem,
+      blockHitSystem,
+      scoreSystem,
+      winSystem(),
+    ],
   )
 
   const { dispatchGameEvent, flushGameEvents } = useGameEvents()
   const getKeysDown = useKeysDown()
 
-  useGameLoop(() => {
+  const gameLoop = useGameLoop(() => {
     updater({
       gameEvents: flushGameEvents(),
       dispatchGameEvent,
       keysDown: getKeysDown(),
+      gameLoop,
     })
   })
 

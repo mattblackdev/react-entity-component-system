@@ -4,7 +4,7 @@ export const initialEntities = [
   {
     Renderer: Ball,
     position: [112, 256],
-    velocity: [2, 2],
+    velocity: [4, 4],
     collider: { type: 'ball', width: 24, height: 24 },
     name: 'ball',
   },

@@ -6,8 +6,8 @@ import {
 } from './systems'
 
 export const initialSystems = [
-  paddleMovementSystem,
   collisionSystem([['ball', 'paddle'], ['ball', 'block']]),
+  paddleMovementSystem,
   ballCollisionSystem,
   wallCollisionSystem,
 ]

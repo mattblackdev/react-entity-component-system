@@ -11,6 +11,7 @@ export const GameWindow = props => (
       background: '#333',
       boxSizing: 'border-box',
       margin: 'auto',
+      display: 'flex',
     }}
   >
     {props.children}
