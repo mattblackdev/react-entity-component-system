@@ -30,8 +30,9 @@ export function Debug({ entities, gameLoop }) {
         fontSize: 14,
         fontFamily: '"Courier New", monospace',
         height: '100%',
-        overflowY: 'auto',
+        overflow: 'auto',
         backgroundColor,
+        maxWidth: '80%',
       }}
     >
       <div
