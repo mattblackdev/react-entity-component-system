@@ -1,4 +1,4 @@
-import { Ball, Paddle, Block } from './renderers'
+import { Ball, Paddle, Block, Score } from './renderers'
 
 export const initialEntities = [
   {
@@ -28,4 +28,5 @@ export const initialEntities = [
     ],
     [],
   ),
+  { Renderer: Score, score: 0 },
 ]
