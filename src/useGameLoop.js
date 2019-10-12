@@ -1,7 +1,8 @@
 import React from 'react'
 import GameLoop from 'gameloop'
 
-export function useGameLoop(updater) {
+export function useGameLoop(updater, { startImmediately = true } = {}) {
+  const [_startImmediately] = React.useState(startImmediately)
   const gameLoop = React.useRef(GameLoop({ fps: 60 }))
   const memoizedUpdater = React.useCallback(updater, [])
   React.useEffect(() => {
@@ -13,7 +14,9 @@ export function useGameLoop(updater) {
     gameLoop.current.on('resume', () => {
       console.debug('useGameLoop: resumed')
     })
-    gameLoop.current.start()
+    if (_startImmediately) {
+      gameLoop.current.start()
+    }
 
     const end = () => {
       console.debug('useGameLoop: ended')
@@ -23,7 +26,7 @@ export function useGameLoop(updater) {
     }
 
     return end
-  }, [memoizedUpdater])
+  }, [_startImmediately, memoizedUpdater])
 
   return gameLoop
 }
