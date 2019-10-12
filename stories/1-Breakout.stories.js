@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import useEntityComponentSystem, {
   useGameLoop,
   useGameEvents,
@@ -43,7 +43,6 @@ function Score(props) {
         right: 20,
         color: 'white',
         fontSize: 50,
-        fontFamily: 'Operator Mono',
         fontWeight: 'bold',
       }}
     >
@@ -78,7 +77,6 @@ function winSystem() {
         Renderer: () => (
           <div
             style={{
-              fontFamily: 'Operator Mono',
               position: 'relative',
               justifySelf: 'center',
               alignSelf: 'center',
@@ -116,16 +114,58 @@ export function Breakout() {
   const { dispatchGameEvent, flushGameEvents } = useGameEvents()
   const getKeysDown = useKeysDown()
 
-  const gameLoop = useGameLoop(() => {
-    updater({
-      gameEvents: flushGameEvents(),
-      dispatchGameEvent,
-      keysDown: getKeysDown(),
-      gameLoop,
-    })
-  })
+  const gameLoop = useGameLoop(
+    () => {
+      updater({
+        gameEvents: flushGameEvents(),
+        dispatchGameEvent,
+        keysDown: getKeysDown(),
+        gameLoop,
+      })
+    },
+    { startImmediately: false },
+  )
 
-  return <GameWindow>{entities}</GameWindow>
+  const [started, setStarted] = React.useState(false)
+
+  React.useEffect(() => {
+    function handleStartGame() {
+      setTimeout(() => {
+        gameLoop.current.start()
+      }, 300)
+      setStarted(true)
+    }
+    if (!started) {
+      document.addEventListener('mouseup', handleStartGame)
+    } else {
+      document.removeEventListener('mouseup', handleStartGame)
+    }
+    return () => document.removeEventListener('mouseup', handleStartGame)
+  }, [started, setStarted, gameLoop])
+
+  return (
+    <Fragment>
+      <Instructions />
+      <GameWindow>{entities}</GameWindow>
+    </Fragment>
+  )
+}
+
+function Instructions() {
+  return (
+    <div>
+      <h1>Instructions</h1>
+      <p>
+        Use the arrow keys{' '}
+        <span role="img" aria-label="">
+          ⬅️➡️
+        </span>{' '}
+        to move the paddle.
+      </p>
+      <p>Break all the blocks to win.</p>
+      <p>Click anywhere to start.</p>
+    </div>
+  )
 }
 
 Breakout.story = {
