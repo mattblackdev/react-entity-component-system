@@ -1,6 +1,6 @@
-import { BasicECS } from './basic/BasicECS'
-import { Looping } from './basic/Looping'
-import { Events } from './basic/Events'
+import { BasicECS } from './BasicECS'
+import { Looping } from './Looping'
+import { Events } from './Events'
 
 BasicECS.story = {
   title: 'Just ECS',

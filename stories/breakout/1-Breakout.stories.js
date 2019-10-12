@@ -3,14 +3,12 @@ import useEntityComponentSystem, {
   useGameLoop,
   useGameEvents,
   useKeysDown,
-} from '../src'
+} from '../../src'
 
-import {
-  GameWindow,
-  initialEntities,
-  initializeSystems,
-  useClickToStart,
-} from './breakout'
+import { GameWindow } from './GameWindow'
+import { initialEntities } from './initialEntities'
+import { initializeSystems } from './initializeSystems'
+import { useClickToStart } from './useClickToStart'
 
 export function Breakout() {
   const [systems] = React.useState(initializeSystems)
