@@ -12,7 +12,8 @@
     "build": "microbundle --jsx React.createElement",
     "dev": "microbundle watch --jsx React.createElement",
     "start": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "deploy-storybook": "storybook-to-ghpages"
   },
   "keywords": [
     "react",
@@ -65,6 +66,7 @@
     "@storybook/addon-links": "^5.2.1",
     "@storybook/addons": "^5.2.1",
     "@storybook/react": "^5.2.1",
+    "@storybook/storybook-deployer": "^2.8.1",
     "@typescript-eslint/eslint-plugin": "2.x",
     "@typescript-eslint/parser": "2.x",
     "babel-eslint": "10.x",
