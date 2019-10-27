@@ -9,9 +9,8 @@
   "source": "src/index.js",
   "main": "dist/index.js",
   "scripts": {
-    "build": "microbundle --jsx React.createElement",
-    "dev": "microbundle watch --jsx React.createElement",
     "start": "start-storybook -p 6006",
+    "build": "microbundle --jsx React.createElement",
     "build-storybook": "build-storybook",
     "deploy-storybook": "storybook-to-ghpages"
   },
