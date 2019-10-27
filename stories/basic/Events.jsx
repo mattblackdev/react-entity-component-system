@@ -1,5 +1,5 @@
 import React from 'react'
-import useECS, { useGameLoop, useGameEvents } from '../../src'
+import { useEntityComponentSystem, useGameLoop, useGameEvents } from '../../src'
 import { Code } from '../helpers/Code'
 
 function ColorfulEvent({ event, createdAt }) {
@@ -16,7 +16,7 @@ const initialEntities = []
 const systems = [eventSystem]
 
 export function Events() {
-  const [entities, updater] = useECS(initialEntities, systems)
+  const [entities, updater] = useEntityComponentSystem(initialEntities, systems)
   const { dispatchGameEvent, flushGameEvents } = useGameEvents()
   const handleFrame = React.useCallback(() => {
     updater({
@@ -37,7 +37,7 @@ export function Events() {
 }
 
 const code = `import React from 'react'
-import useECS, { useGameLoop, useGameEvents } from 'react-entity-component-system'
+import { useEntityComponentSystem, useGameLoop, useGameEvents } from 'react-entity-component-system'
 
 function ColorfulEvent({ event }) {
   return <li style={{ color: event }}>{event}</li>
@@ -53,7 +53,7 @@ const initialEntities = []
 const systems = [eventSystem]
 
 export function Events() {
-  const [entities, updater] = useECS(initialEntities, systems)
+  const [entities, updater] = useEntityComponentSystem(initialEntities, systems)
   const { dispatchGameEvent, flushGameEvents } = useGameEvents()
   const handleFrame = React.useCallback(() => {
     updater({

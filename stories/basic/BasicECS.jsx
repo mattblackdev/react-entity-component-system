@@ -1,5 +1,5 @@
 import React from 'react'
-import useECS from '../../src'
+import { useEntityComponentSystem } from '../../src'
 import { Code } from '../helpers/Code'
 
 const counterEntity = {
@@ -15,7 +15,7 @@ const initialEntities = [counterEntity]
 const systems = [frameCounterSystem]
 
 export function BasicECS() {
-  const [entities, updater] = useECS(initialEntities, systems)
+  const [entities, updater] = useEntityComponentSystem(initialEntities, systems)
   return (
     <div>
       <button onClick={() => updater()}>Next Frame</button>
@@ -26,7 +26,7 @@ export function BasicECS() {
 }
 
 const code = `import React from 'react'
-import useECS from 'react-entity-component-system'
+import { useEntityComponentSystem } from 'react-entity-component-system'
 
 const counterEntity = {
   Renderer: props => <h4>{props.count}</h4>,
@@ -41,7 +41,7 @@ const initialEntities = [counterEntity]
 const systems = [frameCounterSystem]
 
 export function BasicECS() {
-  const [entities, updater] = useECS(initialEntities, systems)
+  const [entities, updater] = useEntityComponentSystem(initialEntities, systems)
   return (
     <div>
       <button onClick={() => updater()}>Next Frame</button>

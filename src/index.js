@@ -1,6 +1,4 @@
-import { useEntityComponentSystem } from './useEntityComponentSystem'
-export default useEntityComponentSystem
-export { useEntityComponentSystem }
+export { useEntityComponentSystem } from './useEntityComponentSystem'
 export { useGameEvents } from './useGameEvents'
 export { useGameLoop } from './useGameLoop'
 export { useKeysDown } from './useKeysDown'

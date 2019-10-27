@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
-import useEntityComponentSystem, {
+import {
+  useEntityComponentSystem,
   useGameLoop,
   useGameEvents,
   useKeysDown,

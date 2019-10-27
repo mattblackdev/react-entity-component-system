@@ -16,7 +16,7 @@ It's fun to build games with React, and people have become successful at it. The
 
 ```jsx
 import React from 'react'
-import useECS from 'react-entity-component-system'
+import { useEntityComponentSystem } from 'react-entity-component-system'
 ```
 
 ECS in general has three basic concepts:
@@ -42,14 +42,14 @@ function frameCounterSystem({ entities }) {
 }
 ```
 
-The `useECS` hook manages the CRUD (creating, _rendering_, updating and destroying the entities). Pass it some initial entities and systems, receive the renderable result and an `updater` function:
+The `useEntityComponentSystem` hook manages the CRUD (creating, _rendering_, updating and destroying the entities). Pass it some initial entities and systems, receive the renderable result and an `updater` function:
 
 ```jsx
 const initialEntities = [counterEntity]
 const systems = [frameCounterSystem]
 
 export default function BasicECS() {
-  const [entities, updater] = useECS(initialEntities, systems)
+  const [entities, updater] = useEntityComponentSystem(initialEntities, systems)
 
   return (
     <div>
@@ -85,7 +85,7 @@ Typically, the `updater` is called inside a loop via the provided `useGameLoop` 
 
 ```jsx
 function Game(scene) {
-  const [entities, updater] = useECS(...scene)
+  const [entities, updater] = useEntityComponentSystem(...scene)
   const update = useCallback(elapsedTime => updater({ elapsedTime }), [updater])
   useGameLoop(update)
 

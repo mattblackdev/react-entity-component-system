@@ -36,7 +36,7 @@ export function Swapping() {
 }
 
 const code = `import React from 'react'
-import { useEntityComponentSystem, useGameLoop } from '../../src'
+import { useEntityComponentSystem, useGameLoop } from 'react-entity-component-system'
 
 const counterEntity = {
   Renderer: ({ color }) => <h4 style={{ color }}>I'm {color}</h4>,

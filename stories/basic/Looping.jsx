@@ -1,5 +1,5 @@
 import React from 'react'
-import useECS, { useGameLoop } from '../../src'
+import { useEntityComponentSystem, useGameLoop } from '../../src'
 import { Code } from '../helpers/Code'
 
 const counterEntity = {
@@ -15,7 +15,7 @@ const initialEntities = [counterEntity]
 const systems = [frameCounterSystem]
 
 export function Looping() {
-  const [entities, updater] = useECS(initialEntities, systems)
+  const [entities, updater] = useEntityComponentSystem(initialEntities, systems)
 
   useGameLoop(updater)
 
@@ -27,7 +27,7 @@ export function Looping() {
   )
 }
 
-const code = `import useECS, { useGameLoop } from 'react-entity-component-system'
+const code = `import { useEntityComponentSystem, useGameLoop } from 'react-entity-component-system'
 
 const counterEntity = {
   Renderer: props => <h4>{props.count}</h4>,
@@ -42,7 +42,7 @@ const initialEntities = [counterEntity]
 const systems = [frameCounterSystem]
 
 export function Looping() {
-  const [entities, updater] = useECS(initialEntities, systems)
+  const [entities, updater] = useEntityComponentSystem(initialEntities, systems)
   useGameLoop(updater)
 
   return <div>{entities}</div>
