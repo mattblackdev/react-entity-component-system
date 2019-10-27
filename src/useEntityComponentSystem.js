@@ -4,6 +4,7 @@ import { useImmer } from 'use-immer'
 import { defaultInitializeEntities } from './helpers/defaultInitializeEntities.js'
 import { defaultRenderEntities } from './helpers/defaultRenderEntities.jsx'
 import { defaultUniqueId } from './helpers/defaultUniqueId.js'
+import { useConsoleWarnIfInvokedTooManyRendersInARow } from './helpers/useConsoleWarnIfInvokedTooManyRendersInARow.js'
 
 export function useEntityComponentSystem(
   initialEntities = [],
@@ -12,11 +13,28 @@ export function useEntityComponentSystem(
     initializeEntities = defaultInitializeEntities,
     getUniqueId = defaultUniqueId,
     renderEntities = defaultRenderEntities,
+    debug = false,
   } = {},
 ) {
-  const [entities, updateEntities] = useImmer(
-    initializeEntities(initialEntities, getUniqueId),
+  const [entities, updateEntities] = useImmer({})
+
+  const warnIfEntitiesUpdatedMoreThanTwoRendersInARow = useConsoleWarnIfInvokedTooManyRendersInARow(
+    2,
+    `Entities initialized more than 2 renders in a row.
+    You may want to wrap them in React.useState or move the array outside of the component using useEntityComponentSystem.`,
   )
+  React.useEffect(() => {
+    debug && console.debug('Initialilizing entities')
+    warnIfEntitiesUpdatedMoreThanTwoRendersInARow()
+    updateEntities(() => initializeEntities(initialEntities, getUniqueId))
+  }, [
+    initialEntities,
+    initializeEntities,
+    updateEntities,
+    getUniqueId,
+    warnIfEntitiesUpdatedMoreThanTwoRendersInARow,
+    debug,
+  ])
 
   const updater = React.useCallback(
     (userArgsOrArgsGetter = {}) => {
@@ -49,20 +67,32 @@ export function useEntityComponentSystem(
           system(systemArgs)
         }
 
-        for (const id of entitiesToDestroy) {
-          delete entitiesDraft[id]
+        if (entitiesToDestroy.length) {
+          debug && console.debug('Destroying entities', entitiesToDestroy)
+          for (const id of entitiesToDestroy) {
+            delete entitiesDraft[id]
+          }
         }
 
         if (entitiesToCreate.length) {
+          debug && console.debug('Creating entities', entitiesToCreate)
           Object.assign(
             entitiesDraft,
-            initializeEntities(entitiesToCreate, getUniqueId)(),
+            initializeEntities(entitiesToCreate, getUniqueId),
           )
         }
       })
     },
-    [updateEntities, systems, initializeEntities, getUniqueId],
+    [updateEntities, systems, initializeEntities, getUniqueId, debug],
   )
+
+  const warnIfUpdaterIsRecreatedMoreThanTwoRendersInARow = useConsoleWarnIfInvokedTooManyRendersInARow(
+    2,
+    'useEntityComponentSystem updater recreated more than two renders in a row.\nYou may want to wrap systems in React.useState or move the array outside the component using useEntityComponentSystem.',
+  )
+  React.useEffect(() => {
+    warnIfUpdaterIsRecreatedMoreThanTwoRendersInARow()
+  }, [updater, warnIfUpdaterIsRecreatedMoreThanTwoRendersInARow])
 
   return [renderEntities(entities), updater, entities]
 }

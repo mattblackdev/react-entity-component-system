@@ -14,8 +14,5 @@ export function defaultInitializeEntities(initialEntitiesArray, getUniqueId) {
     }
   }
 
-  return () => {
-    console.debug('Initialilizing entities')
-    return initialEntitiesArray.reduce(entityReducer(), {})
-  }
+  return initialEntitiesArray.reduce(entityReducer(), {})
 }

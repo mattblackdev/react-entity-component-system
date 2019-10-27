@@ -15,19 +15,21 @@ export function Breakout() {
   const [entities, updater] = useEntityComponentSystem(initialEntities, systems)
 
   const { dispatchGameEvent, flushGameEvents } = useGameEvents()
-  const getKeysDown = useKeysDown()
+  const keysDown = useKeysDown()
 
-  const gameLoop = useGameLoop(
-    () => {
+  const handleFrame = React.useCallback(
+    (elapsedTime, gameLoop) => {
       updater({
         gameEvents: flushGameEvents(),
         dispatchGameEvent,
-        keysDown: getKeysDown(),
+        keysDown: keysDown.current,
+        elapsedTime,
         gameLoop,
       })
     },
-    { startImmediately: false },
+    [updater, flushGameEvents, dispatchGameEvent, keysDown],
   )
+  const gameLoop = useGameLoop(handleFrame, { startImmediately: false })
 
   useClickToStart(gameLoop)
 

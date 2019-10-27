@@ -1,20 +1,7 @@
-import { BasicECS } from './BasicECS'
-import { Looping } from './Looping'
-import { Events } from './Events'
-
-BasicECS.story = {
-  title: 'Just ECS',
-}
-
-Looping.story = {
-  title: 'Looping',
-}
-
-Events.story = {
-  title: 'Events',
-}
-
-export { BasicECS, Looping, Events }
+export { BasicECS } from './BasicECS'
+export { Looping } from './Looping'
+export { Events } from './Events'
+export { Swapping } from './Swapping'
 
 export default {
   title: 'Basic ECS',

@@ -18,5 +18,6 @@ export function useKeysDown() {
       window.removeEventListener('keyup', handleKeyUp)
     }
   }, [keysdown])
-  return () => keysdown.current
+
+  return keysdown
 }
