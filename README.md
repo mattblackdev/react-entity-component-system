@@ -16,13 +16,13 @@ It's fun to build games with React, and people have become successful at it. The
 
 ```jsx
 import React from 'react'
-import useEntityComponentSystem from 'react-entity-component-system'
+import useECS from 'react-entity-component-system'
 ```
 
-ECS has three basic concepts:
+ECS in general has three basic concepts:
 
-1. `Entities` represent every "object" in a scene
-2. `Components` are data structures, composed to create entities.
+1. `Entities` represent things in a scene
+2. `Components` (_not React components_) are data structures, composed to create entities.
 3. `Systems` are functions that operate on entities during every update
 
 In this implementation, an entity is defined as a plain object with at least a `Renderer` property (a React component). Other properties are `components` that will be passed as props to the `Renderer`:
@@ -34,7 +34,7 @@ const counterEntity = {
 }
 ```
 
-A `system` is just a function and will receive the list of `entities` in the scene. Systems are allowed to mutate the entities' `components` (thanks to [immer](https://github.com/immerjs/immer)!):
+A `system` is just a function that operates on `entities` in the scene each frame. `Systems` are allowed to mutate the entities' `components` (thanks to [immer](https://github.com/immerjs/immer)!):
 
 ```jsx
 function frameCounterSystem({ entities }) {
@@ -42,14 +42,14 @@ function frameCounterSystem({ entities }) {
 }
 ```
 
-The `useEntityComponentSystem` hook takes a list of entities and systems and returns the renderable result and an updater function:
+The `useECS` hook manages the CRUD (creating, _rendering_, updating and destroying the entities). Pass it some initial entities and systems, receive the renderable result and an `updater` function:
 
 ```jsx
+const initialEntities = [counterEntity]
+const systems = [frameCounterSystem]
+
 export default function BasicECS() {
-  const [entities, updater] = useEntityComponentSystem(
-    [counterEntity],
-    [frameCounterSystem],
-  )
+  const [entities, updater] = useECS(initialEntities, systems)
 
   return (
     <div>
@@ -60,17 +60,37 @@ export default function BasicECS() {
 }
 ```
 
-When the `updater` is called, the `systems` are called. This triggers a re-render and any changes to the `entities` are reflected immediately. Combined with a loop like `requestAnimationFrame` or the provided `useGameLoop` hook, this can happen as much as 60 frames per second.
+When the `updater` is called, all the `systems` are called with the following object as the first argument:
 
-Additionally, you can pass an object to the `updater` so your systems can have access to other things:
+```js
+const systemArgs = {
+  entities: Object.values(entitiesDraft),
+  entitiesMap: entitiesDraft,
+  createEntity,
+  destroyEntity,
+  ...userArgs,
+}
+```
+
+The `updater` takes and object or function (which should return an object) and passes it to the systems (`...userArgs` as shown above) so they can have access to many other things. For example, the provided `useKeysDown` hook:
 
 ```jsx
-const gameLoop = useGameLoop(elapsedTime => {
-  updater({
-    gameLoop,
-    elapsedTime,
-  })
+const keysDown = useKeysDown()
+updater({
+  keysDown,
 })
+```
+
+Typically, the `updater` is called inside a loop via the provided `useGameLoop` hook. Be sure the function you pass is not redefined during every render. In most cases, you should wrap the `updater` call in `React.useCallback`:
+
+```jsx
+function Game(scene) {
+  const [entities, updater] = useECS(...scene)
+  const update = useCallback(elapsedTime => updater({ elapsedTime }), [updater])
+  useGameLoop(update)
+
+  return <>{entities}</>
+}
 ```
 
 > See this example and more in the [stories folder](https://github.com/mattblackdev/react-entity-component-system/tree/master/stories/basic)
@@ -95,6 +115,8 @@ yarn start
 ### useGameEvents
 
 ### useKeysDown
+
+### Debug
 
 ## Contributing
 
