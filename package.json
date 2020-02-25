@@ -10,9 +10,10 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "start-storybook -p 6006",
-    "build": "microbundle --jsx React.createElement",
+    "build": "microbundle --jsx React.createElement --strict --compress --format modern,es,cjs",
     "build-storybook": "build-storybook",
-    "deploy-storybook": "storybook-to-ghpages"
+    "deploy-storybook": "storybook-to-ghpages",
+    "test": "jest"
   },
   "keywords": [
     "react",
@@ -60,13 +61,17 @@
     "react-dom": ">=16.8.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-react": "^7.8.3",
     "@storybook/addons": "^5.2.5",
     "@storybook/react": "^5.2.5",
     "@storybook/storybook-deployer": "^2.8.1",
+    "@testing-library/react-hooks": "^3.2.1",
     "@typescript-eslint/eslint-plugin": "2.19.2",
     "@typescript-eslint/parser": "2.19.2",
     "babel-eslint": "10.x",
+    "babel-jest": "^25.1.0",
     "babel-loader": "^8.0.6",
     "box-intersect": "^1.0.2",
     "eslint": "6.8.0",
@@ -77,13 +82,15 @@
     "eslint-plugin-react": "7.x",
     "eslint-plugin-react-hooks": "2.3.0",
     "husky": "^4.2.1",
+    "jest": "^25.1.0",
     "microbundle": "^0.12.0-next.6",
     "prettier": "1.19.1",
     "pretty-quick": "^2.0.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
+    "react-test-renderer": "^16.9.0",
     "rollup": "^1.25.2",
-    "typescript": "^3.6.3",
+    "typescript": "^3.8.2",
     "vec-la-fp": "^1.9.0",
     "webpack": "^4.41.2"
   }
