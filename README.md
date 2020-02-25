@@ -64,10 +64,12 @@ When the `updater` is called, all the `systems` are called with the following ob
 
 ```js
 const systemArgs = {
-  entities: Object.values(entitiesDraft),
-  entitiesMap: entitiesDraft,
+  entities,
+  filteredEntities,
   createEntity,
   destroyEntity,
+  addComponent,
+  removeComponent,
   ...userArgs,
 }
 ```
@@ -110,6 +112,24 @@ yarn start
 
 ### useEntityComponentSystem
 
+#### Entity
+
+#### System
+
+##### Component Filters
+
+Systems can specify a filter like this:
+
+```js
+function playerSystem({ filteredEntities }) {
+  filteredEntities.players.forEach(player => {
+    console.log(player.name)
+  })
+}
+// Any entity with a "player" component key
+playerSystem.filter = { players: ['player'] }
+```
+
 ### useGameLoop
 
 ### useGameEvents
@@ -125,5 +145,5 @@ I welcome any ideas and would really love some help with:
 1. Adding Typescript types
 2. Performance benchmarking and optimizations
 3. More game engine API like:
-   - Keeping track of "entity filters" for systems
+   - ~~Keeping track of "entity filters" for systems~~
    - MatterJS or other physics lib integration
