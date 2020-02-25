@@ -2,33 +2,36 @@ import React from 'react'
 import { useEntityComponentSystem, Debug } from '../../src'
 import { Code } from '../helpers/Code'
 
-const counterEntity = {
+const rainbowEntity = {
   Renderer: props => (
-    <h4>
-      Frames: {props.count} - Filtered Entities:{' '}
-      {props.numberOfEntitiesWithCountComponent}
-    </h4>
+    <span style={{ backgroundColor: props.color, height: 20, width: 20 }} />
   ),
-  count: 0,
-  numberOfEntitiesWithCountComponent: 0,
 }
 
 const otherEntity = {
   Renderer: props => <h6>I dont do anything</h6>,
 }
 
-function frameCounterSystem({ filteredEntities }) {
-  filteredEntities.forEach(entity => {
-    entity.count++
-    entity.numberOfEntitiesWithCountComponent = filteredEntities.length
+function rainbowSystem({ filteredEntities: { colorable } }) {
+  colorable.forEach(entity => {
+    entity.color = [
+      'red',
+      'orange',
+      'yellow',
+      'green',
+      'blue',
+      'indigo',
+      'violet',
+    ][Math.floor(Math.random() * 7)]
   })
 }
 
-frameCounterSystem.filter = entities =>
-  entities.filter(entity => 'count' in entity)
+rainbowSystem.filter = {
+  colorable: ['color'],
+}
 
-const initialEntities = [counterEntity, otherEntity]
-const systems = [frameCounterSystem]
+const initialEntities = [rainbowEntity, otherEntity]
+const systems = [rainbowSystem]
 
 export function Filters() {
   const [entities, updater, debug] = useEntityComponentSystem(

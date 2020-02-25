@@ -1,12 +1,28 @@
 import React from 'react'
 
-export function defaultRenderEntities(entities, entityParentId = null) {
-  return Object.values(entities)
-    .filter(entity => entity.parentId === entityParentId)
-    .map(({ Renderer = () => null, id, parentId, childrenIds, ...props }) => {
+const defaultEntities = new Map()
+const defaultRenderer = () => null
+export function defaultRenderEntities(
+  entities = defaultEntities,
+  entityParentId = null,
+) {
+  const renderedEntities = []
+  entities.forEach(entity => {
+    if (entity.parentId === entityParentId) {
+      const {
+        Renderer = defaultRenderer,
+        id,
+        parentId,
+        childrenIds,
+        ...props
+      } = entity
       const children = childrenIds.length
         ? defaultRenderEntities(entities, id)
         : undefined
-      return <Renderer {...props} key={id} children={children} />
-    })
+      renderedEntities.push(
+        <Renderer {...props} key={id} children={children} />,
+      )
+    }
+  })
+  return renderedEntities
 }
