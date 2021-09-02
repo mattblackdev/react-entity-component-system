@@ -51,7 +51,7 @@
     ]
   },
   "dependencies": {
-    "immer": "^5.3.5",
+    "immer": "^9.0.6",
     "raf": "^3.4.1",
     "stringify-object": "^3.3.0",
     "use-immer": "^0.3.4"
